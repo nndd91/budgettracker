@@ -1,4 +1,4 @@
-$debug = true
+$debugging = true
 
 class Entry
 #Class Methods
@@ -6,10 +6,10 @@ class Entry
   attr_accessor :record, :date, :shortdes, :longdes, :amount, :currency, :con_amount
 
   def initialize
-    @record = @@database.length.to_s
+    @record = (@@database.length+1).to_s
     @date = "01/01/2017"
-    @shortdes = "shortdes"
-    @longdes = "longdes"
+    @shortdes = "Entry ##{@record}"
+    @longdes = ""
     @amount = "$0.00"
     @currency = "SGD"
     @con_amount = "$0.00"
@@ -19,9 +19,8 @@ class Entry
   def self.all_instances #Return all entry
     @@database
 
-    if $debug == true
-      puts "Debug: #{@@database} \n"
-    end
+    debug(@@database)
+
 
   end
 
@@ -33,7 +32,7 @@ class Entry
     c = @@database.length.to_i
     b = @@database
 
-    puts "c is: " + c.to_s
+    debug(c, "c is: ")
     b.push(Entry.new)
 
     if type == 1 #Command Line
@@ -42,15 +41,17 @@ class Entry
       puts "<date>, <shortdes>, <longdes>, <amount>, <currency>, <con_amount>"
 
       input = gets.chomp
-      p input
+
+
+      debug(input)
       array = input.split(',')
-      p array
+      debug(array)
 
 
 
     elsif type == 2 #Guide
       guide = [["Date", b[c].date], ["Short Description", b[c].shortdes], ["Long Description", b[c].longdes], ["Amount",b[c].amount], ["Currency", b[c].currency]]
-      p guide[0][1]
+
       for i in 0..4
         puts "Please enter #{guide[i][0]} (Leave blank for default[#{(guide[i][1])}]): "
         input = gets.chomp.to_s
@@ -61,31 +62,72 @@ class Entry
     end
 
 
-
-    if $debug ==true
-      puts "New entry created with content: "
-      p b[c]
+    debug(b[c], "New entry created with content: ")
+    if array[0].to_s != ""
+      b[c].date = array[0]
     end
-    b[c].date = array[0]
-    b[c].shortdes = array[1]
-    b[c].longdes = array[2]
-    b[c].amount = array[3]
+    if array[1].to_s != ""
+      b[c].shortdes = array[1]
+    end
+    if array[2].to_s != ""
+      b[c].longdes = array[2]
+    end
+    if array[3].to_s != ""
+      b[c].amount = array[3].to_f
+    end
+    if array[4].to_s != ""
+      b[c].currency = array[4]
+    end
+    if array[4].to_s == "SEK"
+      b[c].con_amount = array[3].to_f *(1.0/6)
+    else
+      b[c].con_amount = array[3].to_f
+    end
 
     puts "Updated entry with content: "
     p b[c]
-
   end
 
   def self.print_all_entry
     clearscreen
     print "All Entries are as follows: \n\n"
+
+    print "Record No." + " | " + "Date" + " | " + "Short Description" + " | " + "Long Description" + " | " + "Amount" + " | " + "Currency" + " | " + "Converted Amount" + " | "
+    print "\n"
     for i in 0..(@@database.length-1)
-      print @@database[i].record + " | " + @@database[i].date + " | " + @@database[i].shortdes + " | " + @@database[i].longdes + " | " + @@database[i].amount + " | " + @@database[i].currency + " | " + @@database[i].con_amount + " | "
+      print @@database[i].record.to_s + " | " + @@database[i].date.to_s + " | " + @@database[i].shortdes.to_s + " | " + @@database[i].longdes.to_s + " | " + @@database[i].amount.to_s + " | " + @@database[i].currency.to_s + " | " + @@database[i].con_amount.to_s + " | "
       print "\n"
     end
     print "\n"
   end
 
+  def self.delete_entry
+
+    print <<EOF
+Which entry would you like to delete?
+
+1. Previous
+2. Enter entry number
+3. View latest 30 entries
+EOF
+
+    input = gets.chomp.to_i
+
+    case input
+    when 1
+
+
+    when 2
+
+
+    when 3
+
+
+    end
+
+
+
+  end
 
 #Instance Method
 
@@ -109,53 +151,46 @@ end # End of Class
 
 def clearscreen
   system('cls')
+  if $debugging == true
+    puts "=========================Debug is on==============================="
+    puts ""
+  end
+end
+
+def debug(var, *optional)
+  if $debugging == true
+    #print "Debug: #{optional} #{var}"
+    print "Debug: #{optional[0]}"
+    p var
+  else
+  end
 end
 
 def menu
 
-clearscreen
+print <<EOF
 
-  print <<EOF
-  Hello there! Welcome to this budget tracker!
-  What would you like to do today?
+Menu:
+  1. New Entry
+  2. New Entry(Guided)
+  3. View all Entry
 
-    1. New Entry
-    2. New Entry(Guided)
-    3. View all Entry
 EOF
 
+print "Please choose an option: "
   input = gets.chomp.to_i
 
   case input
   when 1 #New Entry
     Entry.userinput(1)
-
-    puts "Input 1 to go back"
-    input = gets.chomp.to_i
-    if input == 1
-      menu
-    else
-      exit
-    end
+    menu
   when 2 #Guide Entry
     Entry.userinput(2)
 
-    puts "Input 1 to go back"
-    input = gets.chomp.to_i
-    if input == 1
-      menu
-    else
-      exit
-    end
+    menu
   when 3 # View all Entry
     Entry.print_all_entry
-    puts "Input 1 to go back"
-    input = gets.chomp.to_i
-    if input == 1
-      menu
-    else
-      exit
-    end
+    menu
 
   end
 
@@ -163,25 +198,12 @@ end
 
 def main #Main Program Start
 
+clearscreen
 
-  entry00000001 = Entry.new
-  #entry00000001.inputentry
-  entry00000002 = Entry.new
-  entry00000003 = Entry.new
-  entry00000004 = Entry.new
-  #entry00000002.inputentry
-
-
-
-  p entry00000001.date = "03/03/1991"
-
-  entry00000001.print_entry
-  print "\n"
-  entry00000002.print_entry
-  print "\n"
-
-  Entry.all_instances
-  Entry.print_all_entry
+  print <<EOF
+Hello there! Welcome to this budget tracker!
+What would you like to do today?
+EOF
 
   menu
   Entry.userinput
