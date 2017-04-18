@@ -1,0 +1,84 @@
+body {
+  margin: 30px auto;
+  width: 640px;
+}
+
+header {
+  text-align: center;
+  margin: 0 0 20px;
+}
+
+header h1, header h1 a:link, header h1 a:visited {
+  color: #607890;
+  text-decoration: none;
+  font-size:40px;
+}
+
+h2 {
+  color: #687890;
+  font-size: 28px;
+  
+}
+
+article {
+  border: 1px solid #607890;
+  padding: 5px 5px;
+}
+
+article span {
+  margin: 5px 10px;
+}
+article span[name="content"] {
+  margin: 5px 10px;
+  width: 310px;
+}
+
+table {
+width: 100%;
+
+}
+
+tr:first-of-type {
+    border: 1px solid #eee;
+}
+
+tr:nth-child(even) {
+    background: #fafafa;
+}
+
+td {
+  border: 1px solid #607890;
+  padding: 5px 5px;
+}
+
+#main {
+  margin: 0 auto;
+}
+
+#new_entry {
+  margin: 0 0 20px;
+}
+
+#new_entry input {
+  height: 30px;
+  width: 310px;
+  margin: 0 0 0;
+  border: 1px solid #ddd;
+  background: white;
+}
+
+#new_entry input[type=submit] {
+  width: 100px;
+}
+
+#new_entry input[name=amount]{
+  width: 60px;
+}
+
+#new_entry input[name=date]{
+  width: 80px;
+}
+
+#amount input {
+  width: 50px;
+}

@@ -1,2 +1,24 @@
 <!-- Placeholder -->
-History
+<h2>History</h2>
+<form method="POSt">
+<select>
+<option value="all">All Entries</option>
+<input type="submit" value="Filter">
+</select>
+</form>
+<table>
+<tr>
+<td>No.</td>
+<td>Description</td>
+<td>Amount</td>
+<td>Date</td>
+</tr>
+<% @accounts.each do |account| %>
+<tr>
+<td><%= account.id %></td>
+<td width="310px"><%= account.content %></td>
+<td><%= account.amount %></td>
+<td><%= account.day.to_s + "/" + account.month.to_s + "/" + account.year.to_s %>
+</tr>
+<% end %>
+</table>

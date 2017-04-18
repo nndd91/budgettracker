@@ -1,13 +1,30 @@
+<section id="new_entry">
 <form action='/' method='post'>
 <input type="text" name='content' placeholder='Entry'>
-<%= @contenterr %>
-<%= @title %>
 <input type="text" name="amount" placeholder="0.00">
+<input type="text" name="date" placeholder="DD/MM/YY">
 <input type="submit" value="Add">
 </form>
+</section>
 
 <!-- Menu -->
 <a href="/history">History</a>
 <!-- Recent Transaction -->
+<table>
+<tr>
+<td>No.</td>
+<td>Description</td>
+<td>Amount</td>
+<td>Date</td>
+</tr>
+<% @lastten.each do |account|%>
+<tr>
+<td><%= account.id %></td>
+<td width="310px"><%= account.content %></td>
+<td><%= account.amount %></td>
+<td><%= account.day.to_s + "/" + account.month.to_s + "/" + account.year.to_s %>
+</tr>
+<% end %>
+</table>
 
 
