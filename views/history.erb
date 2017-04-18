@@ -1,11 +1,29 @@
 <!-- Placeholder -->
 <h2>History</h2>
-<form method="POSt">
-<select>
-<option value="all">All Entries</option>
-<input type="submit" value="Filter">
+<%= @year_filter %>
+<br><%= @month_filter %>
+<form action '/history' method="post">
+<select name='yearin'>
+<option value=0>All Years</option>
+<%
+yearsarr=["2015", "2016", "2017", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+(0..yearsarr.length-1).each do |i| %>
+<option value="<%= i+15 %>"><%= yearsarr[i] %></option>
+<% end %>
 </select>
+<!-- Month -->
+<select name='monthin'>
+<option value=0>All Months</option>
+<%
+monthsarr=["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+(0..11).each do |i| %>
+<option value="<%= i+1 %>"><%= monthsarr[i] %></option>
+<% end %>
+</select>
+<input type="submit" value="Filter">
 </form>
+
+
 <table>
 <tr>
 <td>No.</td>
@@ -21,4 +39,10 @@
 <td><%= account.day.to_s + "/" + account.month.to_s + "/" + account.year.to_s %>
 </tr>
 <% end %>
+<tr>
+<td></td>
+<td></td>
+<td><%= @total %></td>
+<td></td>
+</tr>
 </table>
